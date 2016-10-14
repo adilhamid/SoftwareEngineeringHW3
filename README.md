@@ -13,6 +13,8 @@ for the course.
 0. In your Cloud9 terminal, type the following command to clone the repository to your development workspace:
 
   `git clone git@github.com:saasbook/rottenpotatoes-rails-intro.git`
+  
+  I have changed the repository to my own github
 
 0. Then `cd rottenpotatoes-rails-intro` to change to the app's
 directory.
