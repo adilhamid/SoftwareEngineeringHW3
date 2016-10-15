@@ -11,22 +11,33 @@ class MoviesController < ApplicationController
   end
 
   def index
-    #@sort_by = params[:sort_by]
-    #@all_ratings 
-    #  if(params[:rating]== nil) then @checked_ratings = @all_ratings end
-    # temp = Movie.order(params[:sort_by])
-   
-    # if params.key?(:sort_by)    
-      @movies = Movie.getmovies( params[:ratings] , params[:sort_by])
-      @all_ratings = Movie.all_ratings
-      @filters = if params[:ratings].nil?
-        @all_ratings
-     else
-      params[:ratings]
-    end
-     #   @movies = Movie.all
-     # end
 
+    setup = Movie.set_options(params, session)
+
+    if(setup[:redirect])
+      flash.keep
+      redirect_to(
+        :action => params[:action], :controller => params[:controller],
+        :ratings => setup[:ratings], :sort_by => setup[:sort_by]
+        )
+    end
+
+    @all_ratings = Movie.all_ratings
+    @filters = setup[:ratings]
+    @movies = Movie.getmovies( @filters , setup[:sort_by])
+
+    session[:ratings] = setup[:ratings]
+    session[:sort_by] = setup[:sort_by]
+
+       
+    #   @movies = Movie.getmovies( params[:ratings] , params[:sort_by])
+    #   @all_ratings = Movie.all_ratings
+    #   @filters = if params[:ratings].nil?
+    #     @all_ratings
+    #  else
+    #   params[:ratings]
+    # end
+     
   end
 
   def new
